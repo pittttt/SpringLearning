@@ -14,6 +14,7 @@ public class SpringTest {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		// µÃµ½bean
 		// µ¥Àý
+		
 		SingletonBean singletonBean = (SingletonBean) applicationContext.getBean("singletonBean");
 		System.out.println(singletonBean);
 		SingletonBean singletonBean2 = (SingletonBean) applicationContext.getBean("singletonBean");
