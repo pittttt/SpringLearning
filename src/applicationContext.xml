@@ -4,41 +4,57 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
        					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- 快速入门 -->
-<!-- IOC配置  -->
-<!-- 
-	class:实现类的全名,spring工厂会自动根据该名字，采用反射机制来得到具体类的类型
-	id：bean(豆子)的名称，或者说是对象的名称，作用为得到此对象，id必须唯一！
-	习惯id取接口名字小写
-	name：作用同id，可通用
- -->
-<bean id="userDao" class="org.spring.dao.UserDaoImpl"></bean>
-<!-- 将service也交给spring管理 -->
-<bean id="userService" class="org.spring.service.UserServiceImpl">
-	<!-- 将userDao的bean注入给userService -->
+	<!-- 快速入门 -->
+	<!-- IOC配置  -->
 	<!-- 
-	name=UserServiceImpl中被注入对象的setter名字，改小写（setterXxx改为xxx）
-	ref：注入具体bean对象的引用，写被依赖的bean的名字
+		class:实现类的全名,spring工厂会自动根据该名字，采用反射机制来得到具体类的类型
+		id：bean(豆子)的名称，或者说是对象的名称，作用为得到此对象，id必须唯一！
+		习惯id取接口名字小写
+		name：作用同id，可通用
 	 -->
-	<property name="userDao" ref="userDao"/>
-</bean>
+	<bean id="userDao" class="org.spring.dao.UserDaoImpl"></bean>
+	<!-- 将service也交给spring管理 -->
+	<bean id="userService" class="org.spring.service.UserServiceImpl">
+		<!-- 将userDao的bean注入给userService -->
+		<!-- 
+		name=UserServiceImpl中被注入对象的setter名字，改小写（setterXxx改为xxx）
+		ref：注入具体bean对象的引用，写被依赖的bean的名字
+		 -->
+		<property name="userDao" ref="userDao"/>
+	</bean>
+	
+	
+	<!-- bean的构造 -->
+	<!-- 1.无参构造 :最常用-->
+	<bean id="bean1" class="org.spring.newbean.Bean1"/>
+	<!-- 2:静态工厂获取bean对象,class为工厂的class，必须指定工厂方法，返回该方法返回的bean对象 -->
+	<bean id="bean2" class="org.spring.newbean.Bean2Factory" factory-method="getBean2"/>
+	<!-- 3:实例工厂来获取bean对象：必须先实例化工厂，然后再配置方法 -->
+	<bean id="bean3Factory" class="org.spring.newbean.Bean3Factory"/>
+	<!-- factory-bean相当于前面的ref，要写实例工厂bean的名字 -->
+	<bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>
+	<!-- 4工厂bean的方式 spring会自动调用该接口的getObject方法来获取对象-->
+	<bean id="bean4" class="org.spring.newbean.Bean4FactoryBean"/>
+	
+	<!-- bean的作用域 -->
+	<!-- 单例：可以省略scope，默认值-->
+	<bean id="singletonBean" class="org.spring.scope.SingletonBean" scope="singleton"></bean>
+	<!-- 多例 -->
+	<bean id="prototypeBean" class="org.spring.scope.PrototypeBean" scope="prototype"></bean>
+	
+	<!-- bean的生命周期 -->
+	<bean id="lifeRecycleBean" class="org.spring.liferecycle.LifeRecycleBean" init-method="initBean" destroy-method="destroyBean" scope="prototype"></bean>
+	
+	<!-- bean后处理器 -->
+	<bean class="org.spring.liferecycle.MyBeanPostProcessor"/>
+
+	<!-- 注入 -->
+	<!-- 构造器注入 -->
+	<bean id="car" class="org.spring.di.Car">
+		<constructor-arg index="0" value="1001"/>
+		<constructor-arg name="name" value="凯迪拉克"/>
+		<constructor-arg type="java.lang.Double" value="9999999d"/>
+	</bean>
 
 
-<!-- bean的构造 -->
-<!-- 1.无参构造 :最常用-->
-<bean id="bean1" class="org.spring.newbean.Bean1"/>
-<!-- 2:静态工厂获取bean对象,class为工厂的class，必须指定工厂方法，返回该方法返回的bean对象 -->
-<bean id="bean2" class="org.spring.newbean.Bean2Factory" factory-method="getBean2"/>
-<!-- 3:实例工厂来获取bean对象：必须先实例化工厂，然后再配置方法 -->
-<bean id="bean3Factory" class="org.spring.newbean.Bean3Factory"/>
-<!-- factory-bean相当于前面的ref，要写实例工厂bean的名字 -->
-<bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"></bean>
-<!-- 4工厂bean的方式 spring会自动调用该接口的getObject方法来获取对象-->
-<bean id="bean4" class="org.spring.newbean.Bean4FactoryBean"/>
-
-<!-- bean的作用域 -->
-<!-- 单例：可以省略scope，默认值-->
-<bean id="singletonBean" class="org.spring.scope.SingletonBean" scope="singleton"></bean>
-<!-- 多例 -->
-<bean id="prototypeBean" class="org.spring.scope.PrototypeBean" scope="prototype"></bean>
 </beans>
