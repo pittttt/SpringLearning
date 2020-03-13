@@ -55,6 +55,12 @@
 		<constructor-arg name="name" value="凯迪拉克"/>
 		<constructor-arg type="java.lang.Double" value="9999999d"/>
 	</bean>
+	
+	<!-- setter属性注入 -->
+	<bean id="person" class="org.spring.di.Person">
+	<property name="name" value="Rose"/>
+	<property name="car" ref="car"/>
+	</bean>
 
 
 </beans>

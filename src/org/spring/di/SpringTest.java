@@ -15,5 +15,8 @@ public class SpringTest {
 		//µÃµ½bean
 		Car car = (Car) applicationContext.getBean("car");
 		System.out.println(car);
+		
+		Person person=(Person) applicationContext.getBean("person");
+		System.out.println(person);
 	}
 }
